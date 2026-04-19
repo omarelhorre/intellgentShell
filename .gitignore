@@ -1,0 +1,48 @@
+# Build artifacts from Make/compilers
+# Object files
+*.o
+*.obj
+*.lo
+*.la
+
+# Dependency files
+*.d
+.deps/
+.dep/
+
+# Libraries
+*.a
+*.lib
+
+# Shared libraries
+*.so
+*.so.*
+*.dylib
+*.dll
+
+# Executables
+a.out
+*.out
+*.exe
+
+# Precompiled headers
+*.gch
+*.pch
+
+# Debug/profiling
+*.dSYM/
+*.gcno
+*.gcda
+*.gcov
+*.prof
+*.gprof
+*.stackdump
+
+# Common build output directories
+build/
+bin/
+lib/
+out/
+dist/
+Debug/
+Release/

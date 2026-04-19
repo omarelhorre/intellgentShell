@@ -25,6 +25,16 @@ char *read_file(const char* fileName)
     return buffer;
 
 }
+
+int write_file(const char* filename, const char* content)
+{
+    FILE* file = fopen(filename,"w");
+    if(!file) return 0;
+
+    fputs(content,file);
+    fclose(file);
+    return 1;
+}
 int main(int argc, char* argv[])
 {
     const char* API_KEY = getenv("OPENAI_API_KEY");
@@ -105,12 +115,23 @@ int main(int argc, char* argv[])
         strncpy(explanation,response,explation_len);
         explanation[explation_len] = '\0';
         char *new_file_content = new_file_start + strlen("New file content:");
-        while(*new_file_content == '\n' || *new_file_content == ' ')
+        while(*new_file_content == '\n' || *new_file_content == ' ')
         {
             new_file_content++;
         }
 
-
         printf("%s",explanation);
+        if(!write_file(argv[2],new_file_content))
+        {
+            fprintf(stderr,"couldnt write to file %s\n",argv[2]);
+            return 1;
+        }
+        else
+        {
+            printf("\n Updated configuration written to %s\n\n",argv[2]);
+
+        }
+            free(response);
+            free(explanation);
     return 0;
 }
