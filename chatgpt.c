@@ -59,7 +59,7 @@ char* chatgpt_query(const char* API_KEY, const char* prompt)
     headers = curl_slist_append(headers,auth_header);
     headers = curl_slist_append(headers,"Content-Type: application/json");
     
-    curl_easy_setopt(curl, CURLOPT_URL, "https://api.openai.com/v1/models");
+    curl_easy_setopt(curl, CURLOPT_URL, "https://api.openai.com/v1/models/completions");
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers); 
     curl_easy_setopt(curl,CURLOPT_POSTFIELDS,json_data); //send the json data
     curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION, write_callback);
@@ -71,5 +71,41 @@ char* chatgpt_query(const char* API_KEY, const char* prompt)
     curl_easy_cleanup(curl); 
     curl_global_cleanup();
     free(json_data);
-    return NULL;
+
+    if(res != CURLE_OK)
+    {
+        free(chunk.response);
+        return NULL;
+    }
+
+    printf("\n \n \n %s \n \n \n",chunk.response);
+    cJSON *resp_json = cJSON_Parse(chunk.response);
+    if(!resp_json)
+    {
+        free(chunk.response);
+        return NULL; 
+    }
+
+    cJSON* choices = cJSON_GetObjectItem(resp_json, "choices");
+    if(!cJSON_IsArray(choices) || !cJSON_GetArraySize(choices) == 0);
+    {
+        cJSON_Delete(resp_json);
+        free(chunk.response);
+        return NULL;
+    }
+
+    cJSON* first_choice = cJSON_GetArrayItem(choices,0);
+    cJSON* message = cJSON_GetObjectItem(first_choice, "message");
+    cJSON* content = cJSON_GetObjectItem(message, "content");
+    if(!cJSON_IsString(content) )
+    {
+        cJSON_Delete(resp_json);
+        free(chunk.response);
+        return NULL;
+    }
+    char * result = strdup(content->valuestring);
+    free(chunk.response);
+    cJSON_Delete(resp_json); //it also affects content
+    return result;
+    
 }
