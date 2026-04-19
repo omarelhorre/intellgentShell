@@ -103,7 +103,7 @@ char* chatgpt_query(const char* API_KEY, const char* prompt)
     }
 
     cJSON* choices = cJSON_GetObjectItem(resp_json, "choices");
-    if(!cJSON_IsArray(choices) || !cJSON_GetArraySize(choices) == 0)
+    if(!cJSON_IsArray(choices) || cJSON_GetArraySize(choices) == 0)
     {
         cJSON_Delete(resp_json);
         free(chunk.response);

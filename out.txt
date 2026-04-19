@@ -1,0 +1,5 @@
+summary: - Computer science studies computation, information, and automation, spanning theory to practical design; practitioners are computer scientists.
+- Core foundations include algorithms, data structures, and the theory of computation.
+- Systems and software areas cover operating systems, networks, embedded systems, software engineering, programming languages, databases, and computer architecture.
+- Data, security, and interaction domains include cryptography/security, computer graphics, computational geometry, and human–computer interaction.
+- AI and machine learning target goal-directed processes (e.g., problem-solving, planning, learning), with subfields like computer vision and natural language processing.

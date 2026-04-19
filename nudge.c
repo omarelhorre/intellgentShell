@@ -31,6 +31,7 @@ int main()
     else
     {
         fprintf(stderr, "Failed to get a response, please try again later.\n");
+        return -1;
     }
     return 0;
 }

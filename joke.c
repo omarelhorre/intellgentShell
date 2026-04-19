@@ -13,7 +13,7 @@ int main()
     }
     
     printf("What do you want your joke about? Ex(e.g. computers, cats):");
-    char answer[256];
+char answer[256];
     if(!fgets(answer, sizeof(answer), stdin))
     {
         fprintf(stderr,"failed to read input...\n");
@@ -22,9 +22,8 @@ int main()
 
     size_t len = strlen(answer);
     if(len > 0 && answer[len-1] == '\n')
-    answer[len-1] = '\n';
-
-    char prompt[1024];
+    answer[len-1] = '\0';
+char prompt[1024];
     snprintf(prompt, sizeof(prompt), "Tell me a short, clean, and a family friendly joke about %s."
                         "Please only respond with the joke, and do not add quotation marks or any explanation."
                         "If you can't reply with a friendly family joke say : sorry I could not come up with a joke for that topic", answer);
@@ -40,6 +39,7 @@ int main()
     else
     {
         fprintf(stderr, "No jokes for you omar.\n");
+        return -1;
     }
     return 0;
 }
